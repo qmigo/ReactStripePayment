@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import Card from '../components/Card'
-import './Payment.css'
+
+import Card from '@/components/Card'
+import '@/pages/Payment.css'
+
 import { AiOutlinePlus} from 'react-icons/ai#AiOutlinePlus';
 import { AiOutlineMinus} from 'react-icons/ai#AiOutlineMinus';
 import axios from 'axios'
@@ -65,7 +67,7 @@ const Payment = () => {
   }
 
   async function checkout(){
-    const {data} = await axios.post("http://localhost:5000/checkout",{
+    const {data} = await axios.post("https://payment-tnk9.onrender.com/checkout",{
     cart
     })
     window.location.replace(`${data.url}`);

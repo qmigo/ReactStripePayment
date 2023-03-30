@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import './card.css'
-import produce from 'immer'
+import '@/components/card.css'
 
 const Card = ({id, name, img, price, desc, cart, setCart}) => {
   

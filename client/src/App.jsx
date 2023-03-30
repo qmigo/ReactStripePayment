@@ -1,9 +1,11 @@
 import { Link, Route, Routes } from 'react-router-dom'
-import './App.css'
-import Navbar from './components/Navbar'
-import Failure from './pages/failure'
-import Payment from './pages/payment'
-import Success from './pages/success'
+
+
+import '@/App.css'
+import Navbar from '@/components/Navbar'
+import Failure from '@/pages/Failure'
+import Payment from '@/pages/Payment'
+import Success from '@/pages/Success'
 
 function App() {
   return (

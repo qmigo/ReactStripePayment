@@ -1,5 +1,6 @@
 import React from 'react'
-import './navbar.css'
+import '@/components/navbar.css'
+
 import { AiOutlineSearch} from 'react-icons/ai#AiOutlineSearch';
 
 const Navbar = () => {
