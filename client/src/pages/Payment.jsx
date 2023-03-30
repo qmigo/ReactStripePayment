@@ -65,13 +65,10 @@ const Payment = () => {
   }
 
   async function checkout(){
-    console.log('click')
     const {data} = await axios.post("http://localhost:5000/checkout",{
     cart
     })
-    // console.log(data)
     window.location.replace(`${data.url}`);
-
   }
   
   return (
