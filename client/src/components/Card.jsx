@@ -2,47 +2,34 @@ import React, { useState } from 'react'
 import './card.css'
 import produce from 'immer'
 
-const Card = ({id, name, price, cart, setCart}) => {
-  const [qty, setQty] = useState(0)
+const Card = ({id, name, img, price, desc, cart, setCart}) => {
+  
+  const addToCart = ()=>{
 
-  function handleClick(amount){
-    
-    const temp = [{id, name, price, qty: qty+amount}]
-    
-    cart.map((item)=>{
-      
-      if(item.id!==id)
-      temp.push(item)
-      
-    })
+    const obj = cart.find(item => id===item.id )
+    console.log(obj)
+    if(!obj)
+    setCart([...cart, { id, name, img, price, qty:1 }])
 
-    
-    setCart(temp)
+    else
+    alert("Already in Cart")
   }
 
   return (
-    <div className='Card'>
-
-      <div className="name">
-        Name : {name}
+    <div className="card">
+      <div className="card-img">
+      <img src={img} alt={name} />
       </div>
-      <div className="name">
-        price : {price}
+      <div className="card-desc">
+        <h4>{name}</h4>
+        <p>{desc}</p>
+        <span className='card-price'>Rs. {price}</span>
       </div>
-      <div>{qty}</div>
-      <button onClick={()=>{
-        setQty((prev)=>prev+1)
-        handleClick(1)
-      }}>+</button>
-      {
-        qty>0 && 
-        <button onClick={()=>{
-          setQty((prev)=>prev-1)
-          handleClick(-1)
-        }}>-</button>
-      
-      }
+      <div className="card-cart">
+        <button className='btn cart-btn' onClick={addToCart}>Add to Cart</button>
+      </div>
     </div>
+
   )
 }
 

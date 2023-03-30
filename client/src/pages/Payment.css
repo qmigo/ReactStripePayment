@@ -1,12 +1,77 @@
-.container{
+ .payment{
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   gap:20px
+ }
+ .card-container{
     display: flex;
-    gap: 20px;
+   gap: 30px;
+   padding: 20px;
+ }
+
+ .checkout-btn{
+   padding: 10px;
+   background-color: white;
+   color: #198754;
+   font-size: large;
+   border: none;
+   outline: 3px solid #198754;
+   width: 60%;
+ }
+ .checkout-btn:hover{
+   color: white;
+   background-color: #198754;
+   outline: none;
+  
+ }
+ .thumbnail{
+  width: 40px;
+  height: 40px;
+ }
+
+ tr{
+  display: flex;
+  width: 100%;
+  /* justify-content: start; */
+  align-items: center;
+ }
+ 
+ td,th{
+  flex: 1;
+  height: 60px;
+ }
+.up,.down{
+  width: 20px;
+  margin: 0 5px;
+  height: 100%;
+  background-color: white;
+  color: black;
 }
-.payment{
-    
-    width: fit-content;
+.special{
+  display: flex;
+ justify-content: start;
+ align-items: center;
+
 }
-.cart{
-    
-    width: fit-content;
+.mr{
+  margin-right: 20px;
+}
+.ml{
+  margin-left: 20px;
+}
+.mr,.ml:hover{
+  cursor: pointer;
+}
+.bill-amount{
+  width: fit-content;
+  margin: 30px auto;
+}
+.checkout-container{
+  margin: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
