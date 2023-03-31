@@ -15,7 +15,6 @@ app.post('/checkout', async(req, res)=>{
             payment_method_types: ["card"],
             mode: "payment",
             line_items: cart.map(({id, name, img, desc, qty, price})=>{
-                console.log(id)
                 return {
                     price_data: {
                         currency: "inr",
