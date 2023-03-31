@@ -6,7 +6,11 @@ import '@/pages/Payment.css'
 import { AiOutlinePlus} from 'react-icons/ai#AiOutlinePlus';
 import { AiOutlineMinus} from 'react-icons/ai#AiOutlineMinus';
 import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux';
+import { incItemQty, decItemQty } from '@/slice/cartSlice';
 
+const local = 'http://localhost:5000'
+const prod = 'https://payment-tnk9.onrender.com'
 
 const DESC = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. lorem bibo lisa fdi dino'
 const products = [
@@ -40,8 +44,11 @@ const products = [
   }
 ]
 const Payment = () => {
-  
-  const [cart, setCart] = useState([])
+  const cart = useSelector((state)=> state.cart.cart)
+  console.log(cart)
+
+  const dispatch = useDispatch()
+
   const [totalAmt, setTotalAmt] = useState(0)
 
   useEffect(()=>{
@@ -51,26 +58,16 @@ const Payment = () => {
 
   },[cart])
 
-  function handleClick(amount, item){
-    const {id, name, img, desc, price, qty} = item
-    
-    const temp = []
-    
-    if(qty+amount!==0)
-      temp.push({id, name, img, desc, price, qty: qty+amount})
-    
-    cart.map((item)=>{
-      if(item.id!==id)
-      temp.push(item)
-    })
-    setCart(temp)
-  }
-
   async function checkout(){
-    const {data} = await axios.post("https://payment-tnk9.onrender.com/checkout",{
-    cart
-    })
-    window.location.replace(`${data.url}`);
+    console.log(cart)
+    try {
+      const {data} = await axios.post(`${prod}/checkout`,{
+      cart
+      })
+      window.location.replace(`${data.url}`);
+    } catch (error) {
+      alert("Sorry Service down")
+    }
   }
   
   return (
@@ -79,7 +76,7 @@ const Payment = () => {
       <div className="card-container">
       {
         products && products.map(({id, name, img, desc, price})=>(
-          <Card id={id} name={name} img={img} desc={desc} price={price} cart={cart} setCart={setCart}/>
+          <Card id={id} name={name} img={img} desc={desc} price={price} />
         ))
       }
       </div>
@@ -98,6 +95,7 @@ const Payment = () => {
       </thead>
       <tbody>
         {
+          
           cart.length>0 ? cart.map((item, index)=>(
             item.qty>0?
             <tr key={index}>
@@ -105,7 +103,7 @@ const Payment = () => {
               <td>{item.name}</td>
               <td><img src={item.img} alt={item.name} className='thumbnail'/></td>
               <td>Rs. {item.price}</td>
-              <td className='special'><AiOutlineMinus className="mr" onClick={()=>{handleClick(-1,item)}}/> {item.qty} <AiOutlinePlus className="ml" onClick={()=>{handleClick(1,item)}}/> </td>
+              <td className='special'><AiOutlineMinus className="mr" onClick={()=>{dispatch(decItemQty(item.id))}}/> {item.qty}  <AiOutlinePlus className="ml" onClick={()=>{dispatch(incItemQty(item.id))}}/> </td>
               <td>{item.qty*item.price}</td>
             </tr>:<></>
           ))

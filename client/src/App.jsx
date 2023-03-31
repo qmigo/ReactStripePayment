@@ -8,6 +8,7 @@ import Payment from '@/pages/Payment'
 import Success from '@/pages/Success'
 
 function App() {
+  
   return (
    <div >
     <Navbar></Navbar>

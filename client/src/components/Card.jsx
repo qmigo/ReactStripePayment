@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import '@/components/card.css'
+import {addToCart as myAdd} from '../slice/cartSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Card = ({id, name, img, price, desc, cart, setCart}) => {
-  
+const Card = ({id, name, img, price, desc}) => {
+  const dispatch = useDispatch()
+  const myCart = useSelector((state)=> state.cart.cart)
   const addToCart = ()=>{
-
-    const obj = cart.find(item => id===item.id )
-    console.log(obj)
-    if(!obj)
-    setCart([...cart, { id, name, img, price, qty:1 }])
+    const item = myCart.find(item=> item.id===id)
+    if(!item)
+    dispatch(myAdd({id, name, img, price, qty:1 }))
 
     else
-    alert("Already in Cart")
+    alert("Item already in Cart")
   }
 
   return (
