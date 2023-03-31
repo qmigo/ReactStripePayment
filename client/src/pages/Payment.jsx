@@ -96,7 +96,7 @@ const Payment = () => {
       <tbody>
         {
           
-          cart.length>0 ? cart.map((item, index)=>(
+          cart.length>0 ? cart.slice(0).reverse().map((item, index)=>(
             item.qty>0?
             <tr key={index}>
               <th scope='row'>{index+1}</th>

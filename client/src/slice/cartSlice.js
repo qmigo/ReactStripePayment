@@ -20,12 +20,14 @@ export const cartSlice = createSlice({
         },
         decItemQty: (state, action) => {
             state.cart.forEach((item, index)=>{
-                if(item.qty===1)
+                
+                if(item.id===action.payload)
                 {
-                    state.cart.splice(index,1)
-                }
-                else if(item.id===action.payload)
-                {
+                    if(item.qty===1 )
+                    {
+                        state.cart.splice(index,1)
+                    }
+                    else
                     state.cart[index].qty --
                 }
             })
