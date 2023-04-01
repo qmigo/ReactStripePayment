@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '@/components/card.css'
-import {addToCart as myAdd} from '../slice/cartSlice'
+import {addToCart as myAdd} from '@/slice/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Card = ({id, name, img, price, desc}) => {
