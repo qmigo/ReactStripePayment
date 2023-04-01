@@ -3,15 +3,16 @@ import '@/components/navbar.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineSearch} from 'react-icons/ai#AiOutlineSearch';
 import { loginUser, logoutUser } from '@/slice/authSlice';
-
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const user = useSelector((state)=> state.auth.user)
-  console.log(user)
+  const username = useSelector((state)=> state.auth.username)
+  const id = useSelector(state=> state.auth.id)
+  console.log(username, id)
 
   const handleAuth = ()=>{
-    console.log(';click')
-    dispatch(loginUser("ankur"))
+    navigate('auth/login')
   }
 
   return (
@@ -30,9 +31,9 @@ const Navbar = () => {
         <AiOutlineSearch/>
       </span>
       
-        {  user!==null?
+        {  username!==null?
             <>
-            <span>{user} </span> 
+            <span>{username} </span> 
             <span onClick={()=> {dispatch(logoutUser())}}> Logout</span>
             </>
             :

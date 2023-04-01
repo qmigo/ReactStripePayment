@@ -6,6 +6,11 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    'process.env': {
+      URL:"http://localhost:5000"
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

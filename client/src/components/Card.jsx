@@ -2,14 +2,31 @@ import React, { useState } from 'react'
 import '@/components/card.css'
 import {addToCart as myAdd} from '@/slice/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+
 
 const Card = ({id, name, img, price, desc}) => {
   const dispatch = useDispatch()
   const myCart = useSelector((state)=> state.cart.cart)
-  const addToCart = ()=>{
+  const userId= useSelector(state=> state.auth.id)
+  
+  const addToCart = async()=>{
+    
     const item = myCart.find(item=> item.id===id)
     if(!item)
-    dispatch(myAdd({id, name, img, price, qty:1 }))
+    { 
+      try {
+        const {data} = await axios.post(`${process.env.URL}/addToCart`,{
+          userId,
+          productId:id
+        })
+        console.log(data)
+      } catch (error) {
+        console.log(error)  
+      }
+
+      dispatch(myAdd({id, name, img, price, qty:1 }))
+    }
 
     else
     alert("Item already in Cart")

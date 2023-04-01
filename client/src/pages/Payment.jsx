@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import Card from '@/components/Card'
 import '@/pages/Payment.css'
-
 import { AiOutlinePlus} from 'react-icons/ai#AiOutlinePlus';
 import { AiOutlineMinus} from 'react-icons/ai#AiOutlineMinus';
 import axios from 'axios'
@@ -13,43 +12,19 @@ const local = 'http://localhost:5000'
 const prod = 'https://payment-tnk9.onrender.com'
 
 const DESC = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. lorem bibo lisa fdi dino'
-const products = [
-  {
-    id: "1",
-    name: "Nike AIRFORCE 1",
-    desc: DESC,
-    img: 'https://firebasestorage.googleapis.com/v0/b/learning-bb090.appspot.com/o/stripe%2Fpic1.webp?alt=media&token=f40f87d2-349e-4450-a78d-d1354220c025',
-    price: 12000
-  },
-  {
-    id: "2",
-    name: "Rayban Sunglasses",
-    desc: DESC,
-    img: 'https://firebasestorage.googleapis.com/v0/b/learning-bb090.appspot.com/o/stripe%2Fpic2.jpg?alt=media&token=6c84d445-a5ed-420f-abaa-21b872814ac2',
-    price: 3000
-  },
-  {
-    id: "3",
-    name: "BOAT Rockerzz 350",
-    desc: DESC,
-    img: 'https://firebasestorage.googleapis.com/v0/b/learning-bb090.appspot.com/o/stripe%2Fpic3.jpg?alt=media&token=5e2d976e-319e-41bd-835b-39634dc34c99',
-    price: 2000
-  },
-  {
-    id: "4",
-    name: "Apple MacBook PRO",
-    desc: DESC,
-    img: 'https://firebasestorage.googleapis.com/v0/b/learning-bb090.appspot.com/o/stripe%2Fpic4.jpg?alt=media&token=14ba7df7-7aa8-4af9-b7e4-c105bef69539',
-    price: 80000
-  }
-]
+
+
 const Payment = () => {
   const cart = useSelector((state)=> state.cart.cart)
+  const userId = useSelector(state=> state.auth.id)
+
   console.log(cart)
 
   const dispatch = useDispatch()
 
   const [totalAmt, setTotalAmt] = useState(0)
+  const [products, setProducts] = useState([])
+  const [isCartUpdateLoading, setIsCartUpdateLoading] = useState(false)
 
   useEffect(()=>{
     let sum = 0
@@ -57,6 +32,20 @@ const Payment = () => {
     setTotalAmt(sum)
 
   },[cart])
+
+  useEffect(()=>{
+    async function getAllProducts()
+    {
+      try {
+        const {data} = await axios.get(`${process.env.URL}/admin/getAllProducts`)
+        setProducts(data.products)
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAllProducts()
+  },[])
 
   async function checkout(){
     console.log(cart)
@@ -69,15 +58,50 @@ const Payment = () => {
       alert("Sorry Service down")
     }
   }
-  
+
+  const handleCartUpdate = async(item,step)=>{
+    setIsCartUpdateLoading(true)
+    if(step===1)
+    { 
+      try {
+        const qty = item.qty+1
+        await axios.patch(`${process.env.URL}/updateCart?userId=${userId}&productId=${item.id}&quantity=${qty}`)
+        dispatch(incItemQty(item.id))
+      } catch (error) {
+        console.log(error)
+        alert('Cant update cart')
+      }
+    }
+
+    else 
+    {
+      try {
+        const qty = item.qty-1
+        if(qty)
+        await axios.patch(`${process.env.URL}/updateCart?userId=${userId}&productId=${item.id}&quantity=${qty}`)
+        else 
+        await axios.delete(`${process.env.URL}/removeFromCart?userId=${userId}&productId=${item.id}`)
+        dispatch(decItemQty(item.id))
+      } catch (error) {
+        console.log(error)
+        alert('Cant update cart')
+      }
+    }
+    setIsCartUpdateLoading(false)
+  }
+
   return (
     <div className="container-fluid p-10">
     <div className="payment">
       <div className="card-container">
       {
-        products && products.map(({id, name, img, desc, price},index)=>(
+        products.length>0 ? products.map(({_id:id, name, img, desc, price},index)=>(
           <Card key={index} id={id} name={name} img={img} desc={desc} price={price} />
-        ))
+        )): <>
+        <h1>
+        Loading Products
+        </h1>
+        </>
       }
       </div>
     </div>
@@ -98,12 +122,12 @@ const Payment = () => {
           
           cart.length>0 ? cart.slice(0).reverse().map((item, index)=>(
             item.qty>0?
-            <tr key={index}>
+            <tr key={index} className={isCartUpdateLoading?"hide":"show"}>
               <th scope='row'>{index+1}</th>
               <td>{item.name}</td>
               <td><img src={item.img} alt={item.name} className='thumbnail'/></td>
               <td>Rs. {item.price}</td>
-              <td className='special'><AiOutlineMinus className="mr" onClick={()=>{dispatch(decItemQty(item.id))}}/> {item.qty}  <AiOutlinePlus className="ml" onClick={()=>{dispatch(incItemQty(item.id))}}/> </td>
+              <td className='special'><AiOutlineMinus className='mr' onClick={()=>{ !isCartUpdateLoading && handleCartUpdate(item,-1)}}/> {item.qty} <AiOutlinePlus className='ml' onClick={()=>{handleCartUpdate(item,1)}}/> </td>
               <td>{item.qty*item.price}</td>
             </tr>:<></>
           ))
