@@ -8,10 +8,6 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
 import { incItemQty, decItemQty } from '@/slice/cartSlice';
 
-const local = 'http://localhost:5000'
-const prod = 'https://payment-tnk9.onrender.com'
-
-const DESC = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. lorem bibo lisa fdi dino'
 
 
 const Payment = () => {
@@ -50,7 +46,7 @@ const Payment = () => {
   async function checkout(){
     console.log(cart)
     try {
-      const {data} = await axios.post(`${prod}/checkout`,{
+      const {data} = await axios.post(`${process.env.URL}/checkout`,{
       cart
       })
       window.location.replace(`${data.url}`);

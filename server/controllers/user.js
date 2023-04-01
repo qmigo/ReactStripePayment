@@ -9,7 +9,7 @@ const addToCart = async(req, res)=>{
     throw new CustomAPIError(400, "UserId necessary")
     const user = await User.findByIdAndUpdate(userId,
         {
-            $push: { 
+            $addToSet: { 
              cart: {
                 'productId':productId,
                 'qty': 1

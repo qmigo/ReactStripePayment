@@ -19,7 +19,6 @@ function App() {
   const userId = useSelector(state=> state.auth.id)
   const dispatch = useDispatch()
   useEffect(()=>{
-    
     async function setCartSliceByDB(){
       try {
         const {data} = await axios.get(`${process.env.URL}/getCart?userId=${userId}`)

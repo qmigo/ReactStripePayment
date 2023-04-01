@@ -8,7 +8,8 @@ export default defineConfig({
   plugins: [react()],
   define: {
     'process.env': {
-      URL:"http://localhost:5000"
+      // URL: "http://localhost:5000"
+      URL:"https://payment-tnk9.onrender.com"
     }
   },
   resolve: {

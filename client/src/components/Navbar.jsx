@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineSearch} from 'react-icons/ai#AiOutlineSearch';
 import { loginUser, logoutUser } from '@/slice/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { emptyCart } from '@/slice/cartSlice';
 const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -34,7 +35,10 @@ const Navbar = () => {
         {  username!==null?
             <>
             <span>{username} </span> 
-            <span onClick={()=> {dispatch(logoutUser())}}> Logout</span>
+            <span onClick={()=> {
+              dispatch(logoutUser())
+              dispatch(emptyCart())
+              }}> Logout</span>
             </>
             :
             <span onClick={handleAuth}>

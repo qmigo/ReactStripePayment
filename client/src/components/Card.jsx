@@ -11,7 +11,8 @@ const Card = ({id, name, img, price, desc}) => {
   const userId= useSelector(state=> state.auth.id)
   
   const addToCart = async()=>{
-    
+    if(!userId)
+    return alert('Login First')
     const item = myCart.find(item=> item.id===id)
     if(!item)
     { 

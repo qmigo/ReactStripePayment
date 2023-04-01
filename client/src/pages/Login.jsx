@@ -4,8 +4,26 @@ import {  toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '@/slice/authSlice'
+import { addToCart } from '@/slice/cartSlice'
+
+
 const Login = () => {
   const dispatch = useDispatch()
+  
+  async function setCartSliceByDB(userId){
+    console.log("Item add kar")
+    try {
+      const {data} = await axios.get(`${process.env.URL}/getCart?userId=${userId}`)
+      data.cart.map(({_id:id, name, img, price, qty, desc})=>{
+        dispatch(addToCart({
+          id, name, img, price, qty, desc
+        }))
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
   const navigate = useNavigate()
   const handleLogin = async(e)=>{
     e.preventDefault()
@@ -19,6 +37,8 @@ const Login = () => {
         username: data.user.username,
         id: data.user._id
       }))
+      setCartSliceByDB(data.user._id)
+
       toast('Login Successful')
       navigate('/')
     } catch (error) {
