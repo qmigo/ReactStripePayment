@@ -18,7 +18,7 @@ const Card = ({id, name, img, price, desc}) => {
   return (
     <div className="card">
       <div className="card-img">
-      <img src={img} alt={name} />
+      <img src={img} alt={name}/>
       </div>
       <div className="card-desc">
         <h4>{name}</h4>

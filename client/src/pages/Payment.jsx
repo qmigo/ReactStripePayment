@@ -75,8 +75,8 @@ const Payment = () => {
     <div className="payment">
       <div className="card-container">
       {
-        products && products.map(({id, name, img, desc, price})=>(
-          <Card id={id} name={name} img={img} desc={desc} price={price} />
+        products && products.map(({id, name, img, desc, price},index)=>(
+          <Card key={index} id={id} name={name} img={img} desc={desc} price={price} />
         ))
       }
       </div>
