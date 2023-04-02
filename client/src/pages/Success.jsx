@@ -9,7 +9,9 @@ import axios from 'axios'
 
 const addTransactionToDB = async(userId, navigate, dispatch)=>{
   try {
+    console.log(userId)
     const {data} = await axios.get(`${process.env.URL}/getCart?userId=${userId}`)
+    
     // console.log(data)
     const sale = data.cart.map((item)=>{
       return {
