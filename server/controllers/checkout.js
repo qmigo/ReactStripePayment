@@ -3,7 +3,8 @@ const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const checkout = async(req, res)=>{
     
     try { 
-        const {cart} = req.body
+        const {cart, sessionId} = req.body
+        console.log(cart, sessionId)
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             mode: "payment",
@@ -21,7 +22,7 @@ const checkout = async(req, res)=>{
                     quantity: qty
                 }
             }),
-            success_url: `${process.env.CLIENT_URL}/payment-success`,
+            success_url: `${process.env.CLIENT_URL}/payment-success?sessionId=${sessionId}`,
             cancel_url: `${process.env.CLIENT_URL}/payment-failure`
         })
         res.json({url: session.url})

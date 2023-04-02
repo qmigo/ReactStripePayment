@@ -1,6 +1,7 @@
 const Product = require('../model/Product')
 const User = require('../model/User')
 const CustomAPIError = require('../error/customError')
+const Transaction = require('../model/Transaction')
 
 const addToCart = async(req, res)=>{
     const {userId, productId} = req.body
@@ -31,7 +32,6 @@ const getCart = async(req, res)=>{
     throw new CustomAPIError(400, 'userId is empty')
 
     const products = await User.findById(userId).select("cart")
-    console.log(products.cart)
     
     const cart = await Promise.all(
         products.cart.map(async({productId, qty})=>{
@@ -72,7 +72,6 @@ const updateCart = async(req, res)=>{
 }
 
 const removeFromCart = async (req, res)=>{
-    console.log('remove')
     const {userId, productId} = req.query
 
     if(!userId || !productId )
@@ -98,4 +97,23 @@ const removeFromCart = async (req, res)=>{
     res.status(200).json({success:true})
 }
 
-module.exports = {addToCart, getCart, updateCart, removeFromCart}
+const clearCart = async (req, res)=>{
+    const {userId} = req.query
+    const user = await User.findByIdAndUpdate(userId,
+    {
+        'cart':[]
+    },{
+        runValidators: true,
+        new: true
+    })
+    res.status(200).json({user})
+}
+
+const addTransaction = async(req, res)=>{
+    // const {sale, userId} = req.body
+    console.log(req.body)
+    const transaction = await Transaction.create(req.body)
+    res.status(200).json({transaction})
+}
+
+module.exports = {addToCart, getCart, updateCart, removeFromCart, clearCart, addTransaction}
