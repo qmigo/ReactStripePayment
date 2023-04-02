@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { genSalt, hash } from 'bcryptjs';
 
 import Card from '@/components/Card'
 import '@/pages/Payment.css'
@@ -7,8 +8,13 @@ import { AiOutlineMinus} from 'react-icons/ai#AiOutlineMinus';
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
 import { incItemQty, decItemQty } from '@/slice/cartSlice';
+import { v4 as uuidv4 } from 'uuid'
 
-
+const hashSessionId = async (sessionId)=>{
+  const salt = await genSalt(10)
+  const sessionIdHashed = await hash(sessionId, salt)
+  return sessionIdHashed
+}
 
 const Payment = () => {
   const cart = useSelector((state)=> state.cart.cart)
@@ -45,9 +51,14 @@ const Payment = () => {
 
   async function checkout(){
     console.log(cart)
+    const sessionId = uuidv4()
+    const sessionIdHashed = await hashSessionId(sessionId)
+    console.log(sessionId, sessionIdHashed)
+    sessionStorage.setItem('sessionId', sessionIdHashed)
     try {
       const {data} = await axios.post(`${process.env.URL}/checkout`,{
-      cart
+      cart,
+      sessionId
       })
       window.location.replace(`${data.url}`);
     } catch (error) {

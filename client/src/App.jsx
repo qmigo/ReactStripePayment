@@ -17,6 +17,7 @@ import {addToCart} from '@/slice/cartSlice'
 
 function App() {
   const userId = useSelector(state=> state.auth.id)
+  
   const dispatch = useDispatch()
   useEffect(()=>{
     async function setCartSliceByDB(){
