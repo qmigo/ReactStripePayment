@@ -51,7 +51,7 @@ const compareSessionId = async(id, hashedId, navigate, setIsSessionValid, userId
     }
     else{
       toast('Session Expired')
-      navigate('/')
+      // navigate('/')
     }
 }
 
