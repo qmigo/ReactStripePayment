@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { compare } from 'bcryptjs'
 import {emptyCart} from'@/slice/cartSlice'
@@ -63,11 +63,13 @@ const Success = () => {
   const {id:userId} = useSelector(state=> state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
   
   useEffect(()=>{
+    
     const sessionId = sessionStorage.getItem('sessionId')
-    const queryParameters = new URLSearchParams(window.location.search)
-    const redirectSessionId = queryParameters.get("sessionId")
+    const redirectSessionId = location.search.split('=')[1]
+    
     if(sessionId)
     compareSessionId(redirectSessionId, sessionId, navigate, setIsSessionValid,userId, dispatch)
     else{

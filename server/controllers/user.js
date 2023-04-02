@@ -110,8 +110,6 @@ const clearCart = async (req, res)=>{
 }
 
 const addTransaction = async(req, res)=>{
-    // const {sale, userId} = req.body
-    console.log(req.body)
     const transaction = await Transaction.create(req.body)
     res.status(200).json({transaction})
 }
