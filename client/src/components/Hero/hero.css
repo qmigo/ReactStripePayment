@@ -1,0 +1,9 @@
+.hero{
+    margin: 10px auto;
+    height: 400px;
+}
+.carousel-inner .carousel-item {
+    transition: -webkit-transform 4s ease;
+    transition: transform 4s ease;
+    transition: transform 4s ease, -webkit-transform 2s ease;
+  }

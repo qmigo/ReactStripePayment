@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {addToCart} from '@/slice/cartSlice'
 import Product from '@/pages/Product/Product';
 import Products from '@/pages/Products/Products';
+import Home from '@/pages/Home/Home';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
   useEffect(()=>{
     async function setCartSliceByDB(){
       try {
+        if(!userId)return
         const {data} = await axios.get(`${process.env.URL}/getCart?userId=${userId}`)
         data.cart.map(({_id:id, name, img, price, qty, desc})=>{
           dispatch(addToCart({
@@ -51,7 +53,7 @@ function App() {
       />
     <Navbar></Navbar>
     <Routes>
-      <Route path='/' element={<Payment/>}></Route>
+      <Route path='/' element={<Home/>}></Route>
       <Route path='/search' element={<Products></Products>}></Route>
       <Route path='/auth/login' element={<Login/>}></Route>
       <Route path='/auth/register' element={<Register/>}></Route>

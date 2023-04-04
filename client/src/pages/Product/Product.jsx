@@ -40,7 +40,7 @@ const Product = () => {
         const productId = location.pathname.split('/')[2] 
         async function getData()
         {
-            const {data} = await axios.get(`http://localhost:5000/admin/getProduct/?productId=${productId}`)
+            const {data} = await axios.get(`${process.env.URL}/admin/getProduct/?productId=${productId}`)
             setProduct(data.product)
             setColor(data.product.colors[0].code)
         }

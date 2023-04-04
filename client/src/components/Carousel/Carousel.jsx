@@ -22,7 +22,7 @@ const Carousel = ({photos, profile, setProfile}) => {
   }
 
   return (
-    <div className='carousel'>
+    <div className='product-carousel'>
       <div className="left-strip">
         {
             photos.map((photo, index)=>(
