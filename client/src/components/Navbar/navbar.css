@@ -3,7 +3,7 @@
     width: 100%;
     height: 70px;
     box-shadow: 0 0 6px 1px gray;
-   
+    z-index: 2;
     background-color: white;
 }
 .nav-left{
@@ -51,6 +51,9 @@
     font-size: 0.8rem !important;
 }
 
+.dlcLYL > input{
+    font-size: 0.8rem !important;
+}
 .nav-profile{
     width: 30%;
     display: flex;
