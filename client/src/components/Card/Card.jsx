@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
-import '@/components/card.css'
+import '@/components/Card/card.css'
 import {addToCart as myAdd} from '@/slice/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
-const Card = ({id, name, img, price, desc}) => {
+
+const Card = ({id, title, brand, price,stars, ratings, profile}) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const myCart = useSelector((state)=> state.cart.cart)
   const userId= useSelector(state=> state.auth.id)
   
+  const viewDetails = ()=>{
+    navigate(`/product/${id}`)
+  }
+
   const addToCart = async()=>{
     if(!userId)
     return alert('Login First')
@@ -21,12 +28,10 @@ const Card = ({id, name, img, price, desc}) => {
           userId,
           productId:id
         })
-        console.log(data)
+        dispatch(myAdd({id, name, img, price, qty:1 }))
       } catch (error) {
         console.log(error)  
       }
-
-      dispatch(myAdd({id, name, img, price, qty:1 }))
     }
 
     else
@@ -34,13 +39,12 @@ const Card = ({id, name, img, price, desc}) => {
   }
 
   return (
-    <div className="card">
+    <div className="card" onClick={viewDetails}>
       <div className="card-img">
-      <img src={img} alt={name}/>
+      <img src={profile[0].urls[0]} alt={title}/>
       </div>
       <div className="card-desc">
-        <h4>{name}</h4>
-        <p>{desc}</p>
+        <h4>{title}</h4>
         <span className='card-price'>Rs. {price}</span>
       </div>
       <div className="card-cart">

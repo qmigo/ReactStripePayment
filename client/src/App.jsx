@@ -2,17 +2,19 @@ import { Link, Route, Routes } from 'react-router-dom'
 import "react-toastify/dist/ReactToastify.css";
 
 import '@/App.css'
-import Navbar from '@/components/Navbar'
-import Failure from '@/pages/Failure'
-import Payment from '@/pages/Payment'
-import Success from '@/pages/Success'
-import Register from '@/pages/Register'
-import Login from '@/pages/Login'
+import Navbar from '@/components/Navbar/Navbar'
+import Failure from '@/pages/Failure/Failure'
+import Payment from '@/pages/Cart/Payment'
+import Success from '@/pages/Success/Success'
+import Register from '@/pages/Register/Register'
+import Login from '@/pages/Login/Login'
 import { ToastContainer } from 'react-toastify'
 import { useEffect } from 'react';
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import {addToCart} from '@/slice/cartSlice'
+import Product from '@/pages/Product/Product';
+import Products from '@/pages/Products/Products';
 
 
 function App() {
@@ -35,7 +37,7 @@ function App() {
     setCartSliceByDB()
   },[])
   return (
-   <div >
+   <div className='app'>
     <ToastContainer autoClose={5000}
       position="top-right"
       hideProgressBar={false}
@@ -50,8 +52,10 @@ function App() {
     <Navbar></Navbar>
     <Routes>
       <Route path='/' element={<Payment/>}></Route>
+      <Route path='/search' element={<Products></Products>}></Route>
       <Route path='/auth/login' element={<Login/>}></Route>
       <Route path='/auth/register' element={<Register/>}></Route>
+      <Route path='/product/:productId' element={<Product/>}></Route>
       <Route path='/payment-success' element={<Success/>}></Route>
       <Route path='/payment-failure' element={<Failure/>}></Route>
     </Routes>

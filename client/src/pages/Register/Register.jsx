@@ -20,6 +20,9 @@ const Register = () => {
   }
   return (
     <div className="register d-flex flex-column w-25 mx-auto">
+      <div className="register-left-hero">
+        
+      </div>
       <form onSubmit={handleRegister} className='d-flex flex-column w-100'>
         <input type="text" placeholder='username' className='mx-2 my-2' name='username' required/>
         <input type="text" placeholder='password' className='mx-2 my-2' name='password' required/>

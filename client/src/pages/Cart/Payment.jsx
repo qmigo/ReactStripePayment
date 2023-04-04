@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { genSalt, hash } from 'bcryptjs';
 
-import Card from '@/components/Card'
-import '@/pages/Payment.css'
+import Card from '@/components/Card/Card'
+import '@/pages/Cart/Payment.css'
 import { AiOutlinePlus} from 'react-icons/ai#AiOutlinePlus';
 import { AiOutlineMinus} from 'react-icons/ai#AiOutlineMinus';
 import axios from 'axios'
@@ -102,8 +102,8 @@ const Payment = () => {
     <div className="payment">
       <div className="card-container">
       {
-        products.length>0 ? products.map(({_id:id, name, img, desc, price},index)=>(
-          <Card key={index} id={id} name={name} img={img} desc={desc} price={price} />
+        products.length>0 ? products.map(({_id:id, title, brand, price,stars, ratings, profile},index)=>(
+          <Card key={index} id={id} title={title} profile={profile} price={price} brand={brand} stars={stars} ratings={ratings}/>
         )): <>
         <h1>
         Loading Products
