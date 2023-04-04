@@ -1,7 +1,7 @@
 const { checkout } = require('../controllers/checkout')
 const { register, login } = require('../controllers/auth')
 const {addToCart, getCart, updateCart, removeFromCart, clearCart, addTransaction} = require('../controllers/user')
-const { addProduct, getAllProducts, getAllUsers, clearTransactions } = require('../controllers/admin')
+const { addProduct, getAllProducts, getAllUsers, clearTransactions, getProduct } = require('../controllers/admin')
 
 const router = require('express').Router()
 
@@ -25,4 +25,5 @@ router.route('/admin/addProduct').post(addProduct)
 router.route('/admin/getAllProducts').get(getAllProducts)
 router.route('/admin/getAllUsers').get(getAllUsers)
 router.route('/admin/clearTransactions').get(clearTransactions)
+router.route('/admin/getProduct').get(getProduct)
 module.exports = router

@@ -21,9 +21,16 @@ const clearTransactions = async (req, res)=>{
     await Transaction.deleteMany({})
     res.status(200).json({msg:"Success"})
 }
+
+const getProduct = async(req, res)=>{
+    const {productId} = req.query
+    const product = await Product.findById(productId)
+    res.status(200).json({product})
+}
 module.exports = {
     addProduct,
     getAllProducts,
     getAllUsers,
-    clearTransactions
+    clearTransactions,
+    getProduct
 }
